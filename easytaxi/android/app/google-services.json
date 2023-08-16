@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "94970160802",
+    "project_id": "easy-taxi-f0251",
+    "storage_bucket": "easy-taxi-f0251.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94970160802:android:20d489d7d0d36dfaf399fb",
+        "android_client_info": {
+          "package_name": "com.example.easytaxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94970160802-2b7ldtc446o2pcvphh2cf9ubl3ibn9qe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPSwVmThM4YqQnIWgxz8DLnQ1xAq8AVbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94970160802-2b7ldtc446o2pcvphh2cf9ubl3ibn9qe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "94970160802-03a8oeshapvah9g03ur8tp4rv7mbdg36.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.easytaxi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
