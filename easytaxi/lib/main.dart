@@ -1,3 +1,4 @@
+import 'package:easytaxi/views/homescreen.dart';
 import 'package:easytaxi/views/loginscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,8 @@ import 'package:get/get.dart';
 import 'controller/auth_controller.dart';
 import 'firebase_options.dart';
 import 'views/profilesettingscreen.dart';
-
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
@@ -48,9 +50,35 @@ class MyApp extends StatelessWidget {
 
       ////////// Login Screen................................
       
-      home: LoginScreen(),
+      //home: LoginScreen(),
+      home: AppRoot(),
       //home: ProfileSettingScreen(),
 
+    );
+  }
+}
+
+class AppRoot extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: _auth.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user == null) {
+            // User is not authenticated, show phone number verification screen.
+            return LoginScreen();
+          } else {
+            // User is authenticated, navigate to home screen.
+            return HomeScreen();
+          }
+        }
+        // Handle other connection states here.
+        return CircularProgressIndicator();
+      },
     );
   }
 }

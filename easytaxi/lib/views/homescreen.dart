@@ -173,20 +173,21 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: TextFormField(
-          // controller:  destinationController,
+          controller: destinationController,
           autofocus: true,
           readOnly: true,
           onTap: () async {
-            controller:
-            destinationController;
+            // controller: destinationController;
             //showGoogleAutoComplete();
             String selectedPlace = await showGoogleAutoComplete();
 
-            destinationController.text = selectedPlace;
+            if (selectedPlace.isNotEmpty) {
+              destinationController.text = selectedPlace;
 
-            setState(() {
-              showSourceField = true;
-            });
+              setState(() {
+                showSourceField = true;
+              });
+            }
           },
           style: GoogleFonts.poppins(
             fontSize: 16,
@@ -235,49 +236,109 @@ class _HomeScreenState extends State<HomeScreen> {
             Get.bottomSheet(Container(
               width: Get.width,
               height: Get.height * 0.5,
-              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8)),
                   color: AppColors.yellowColor),
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      
-                      SizedBox(
-                        height: 20,
-                      ),
-                      
-                      Text("Select Your Location ",style: TextStyle(color: AppColors.blackColor,fontSize: 20,fontWeight: FontWeight.bold),),
-                      
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      Text("Home Address ",style: TextStyle(color: AppColors.blackColor,fontSize: 20,fontWeight: FontWeight.bold),),
-                      
-                      Container(
-                        width: Get.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          
-                          boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.blackColor.withOpacity(0.02),
-                                  spreadRadius: 4,
-                                  blurRadius: 10
-                                )
-                          ]
-                        ),
-
-                        child:Text("Kurunagala",style: TextStyle(color: AppColors.blackColor,fontSize: 20,fontWeight: FontWeight.bold),),
-                      
-                      )
-                    ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
                   ),
+                  Text(
+                    "Select Your Location ",
+                    style: TextStyle(
+                        color: AppColors.blackColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Home Address ",
+                    style: TextStyle(
+                        color: AppColors.blackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    width: Get.width,
+                    height: 50,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                          color: AppColors.blackColor.withOpacity(0.3),
+                          spreadRadius: 4,
+                          blurRadius: 3)
+                    ]),
+                    child: Center(
+                        child: Text(
+                      "Kurunagala",
+                      style: TextStyle(
+                          color: AppColors.blackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
+                  ),
+                  Text(
+                    "Business Address ",
+                    style: TextStyle(
+                        color: AppColors.blackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    width: Get.width,
+                    height: 50,
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                          color: AppColors.blackColor.withOpacity(0.3),
+                          spreadRadius: 4,
+                          blurRadius: 3)
+                    ]),
+                    child: Center(
+                        child: Text(
+                      "narammala",
+                      style: TextStyle(
+                          color: AppColors.blackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      Get.back();
+                      String Place = await showGoogleAutoComplete();
+                      sourceController.text = Place;
+                    },
+                    child: Container(
+                      width: Get.width,
+                      height: 50,
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            color: AppColors.blackColor.withOpacity(0.3),
+                            spreadRadius: 4,
+                            blurRadius: 3)
+                      ]),
+                      child: Center(
+                          child: Text(
+                        "Search For Adress",
+                        style: TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                  ),
+                ],
+              ),
             ));
           },
           style: GoogleFonts.poppins(
@@ -357,11 +418,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<String> showGoogleAutoComplete() async {
     const kGoogleApiKey = "AIzaSyAdiSlg_ED6_M97F8FoM3VLQG282vSzQGE";
 
+
+try {
     Prediction? p = await PlacesAutocomplete.show(
       offset: 0,
       radius: 10000000,
       strictbounds: false,
-      region: "us",
+      region: "lk",
       language: "en",
       context: context,
       mode: Mode.overlay,
@@ -375,6 +438,16 @@ class _HomeScreenState extends State<HomeScreen> {
       hint: "Search City",
     );
 
-    return p!.description!;
+    if (p != null) {
+      return p.description ?? "";
+    } else {
+      return "";
+    }
+
+     } catch (error) {
+    // Handle any errors that might occur during the autocomplete process.
+    print('Error during autocomplete: $error');
+    return ""; // Return an empty string on error.
+  }
   }
 }
